@@ -10,6 +10,7 @@ import { IModuleConfigLockSlot, ItemModuleLockSlotActionSchema, LockSlotModuleDe
 import { IModuleConfigStorage, ItemModuleStorageActionSchema, ModuleItemDataStorageSchema, ModuleItemTemplateStorageSchema, StorageModuleDefinition } from './modules/storage.ts';
 import { ItemModuleTextActionSchema, ModuleItemDataTextSchema, ModuleItemTemplateTextSchema, TextModuleDefinition, type ModuleConfigText } from './modules/text.ts';
 import { IModuleConfigTyped, ItemModuleTypedActionSchema, ModuleItemDataTypedSchema, ModuleItemTemplateTypedSchema, TypedModuleDefinition } from './modules/typed.ts';
+import { IModuleConfigKey, ItemModuleKeyActionSchema, KeyModuleDefinition, ModuleItemDataKeySchema, ModuleItemTemplateKeySchema } from './modules/key.ts';
 
 //#region Module definitions
 
@@ -34,6 +35,11 @@ export const IAssetModuleTypesSchemas = {
 		template: ModuleItemTemplateTextSchema,
 		actions: ItemModuleTextActionSchema,
 	},
+	key: {
+		data: ModuleItemDataKeySchema,
+		template: ModuleItemTemplateKeySchema,
+		actions: ItemModuleKeyActionSchema,
+	},
 } as const satisfies Readonly<Record<string, IModuleTypeBaseSchema>>;
 
 export type IAssetModuleConfigs<out TProperties, out TStaticData> = Satisfies<{
@@ -41,6 +47,7 @@ export type IAssetModuleConfigs<out TProperties, out TStaticData> = Satisfies<{
 	storage: IModuleConfigStorage<TProperties, TStaticData>;
 	lockSlot: IModuleConfigLockSlot<TProperties, TStaticData>;
 	text: ModuleConfigText<TProperties, TStaticData>;
+	key: IModuleConfigKey<TProperties, TStaticData>;
 }, { [Type in ModuleType]: IModuleConfigCommon<Type, TProperties, TStaticData> }>;
 
 export const MODULE_TYPES: { [Type in ModuleType]: IAssetModuleDefinition<Type>; } = {
@@ -48,6 +55,7 @@ export const MODULE_TYPES: { [Type in ModuleType]: IAssetModuleDefinition<Type>;
 	storage: new StorageModuleDefinition(),
 	lockSlot: new LockSlotModuleDefinition(),
 	text: new TextModuleDefinition(),
+	key: new KeyModuleDefinition(),
 };
 
 /** Problems performing actions on modules */
@@ -142,6 +150,8 @@ export function GetModuleStaticAttributes<TProperties, TStaticData>(moduleDefini
 			return MODULE_TYPES.lockSlot.getStaticAttributes(moduleDefinition, staticAttributesExtractor);
 		case 'text':
 			return MODULE_TYPES.text.getStaticAttributes(moduleDefinition, staticAttributesExtractor);
+		case 'key':
+			return MODULE_TYPES.key.getStaticAttributes(moduleDefinition, staticAttributesExtractor);
 		default:
 			AssertNever(moduleDefinition);
 	}
@@ -178,6 +188,13 @@ export function CreateModuleDataFromTemplate<TProperties, TStaticData>(moduleDef
 		case 'text':
 			Assert(template.type === 'text');
 			return MODULE_TYPES.text.makeDataFromTemplate(
+				moduleDefinition,
+				template,
+				context,
+			);
+		case 'key':
+			Assert(template.type === 'key');
+			return MODULE_TYPES.key.makeDataFromTemplate(
 				moduleDefinition,
 				template,
 				context,
@@ -221,6 +238,14 @@ export function LoadItemModule<TProperties, TStaticData>(moduleDefinition: Immut
 			data ??= MODULE_TYPES.text.makeDefaultData(moduleDefinition);
 			Assert(data.type === 'text');
 			return MODULE_TYPES.text.loadModule(
+				moduleDefinition,
+				data,
+				context,
+			);
+		case 'key':
+			data ??= MODULE_TYPES.key.makeDefaultData(moduleDefinition);
+			Assert(data.type === 'key');
+			return MODULE_TYPES.key.loadModule(
 				moduleDefinition,
 				data,
 				context,

@@ -164,6 +164,8 @@ export function ItemTemplateMeasureCost(template: ItemTemplate): number {
 			}
 		} else if (moduleTemplate.type === 'text') {
 			// No cost for text modules
+		} else if (moduleTemplate.type === 'key') {
+			// TODO: Evaluate cost for key modules
 		} else {
 			AssertNever(moduleTemplate);
 		}
