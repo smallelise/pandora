@@ -4,12 +4,14 @@ import { ItemModuleLockSlot } from 'pandora-common/assets/modules/lockSlot';
 import { ItemModuleStorage } from 'pandora-common/assets/modules/storage';
 import { ItemModuleText } from 'pandora-common/assets/modules/text';
 import { ItemModuleTyped } from 'pandora-common/assets/modules/typed';
+import { ItemModuleKey } from 'pandora-common/assets/modules/key';
 import { ReactElement } from 'react';
 import { WardrobeModuleProps, WardrobeModuleTemplateProps } from '../wardrobeTypes.ts';
 import { WardrobeModuleConfigLockSlot, WardrobeModuleTemplateConfigLockSlot } from './wardrobeModuleLockSlot.tsx';
 import { WardrobeModuleConfigStorage, WardrobeModuleTemplateConfigStorage } from './wardrobeModuleStorage.tsx';
 import { WardrobeModuleConfigText, WardrobeModuleTemplateConfigText } from './wardrobeModuleText.tsx';
 import { WardrobeModuleConfigTyped, WardrobeModuleTemplateConfigTyped } from './wardrobeModuleTyped.tsx';
+import { WardrobeModuleConfigKey, WardrobeModuleTemplateConfigKey } from './wardrobeModuleKey.tsx';
 
 export function WardrobeModuleConfig({ m, ...props }: WardrobeModuleProps<IItemModule>): ReactElement {
 	if (m instanceof ItemModuleTyped) {
@@ -23,6 +25,9 @@ export function WardrobeModuleConfig({ m, ...props }: WardrobeModuleProps<IItemM
 	}
 	if (m instanceof ItemModuleText) {
 		return <WardrobeModuleConfigText { ...props } m={ m } />;
+	}
+	if (m instanceof ItemModuleKey) {
+		return <WardrobeModuleConfigKey { ...props } m={ m } />;
 	}
 	return <>[ ERROR: UNKNOWN MODULE TYPE ]</>;
 }
@@ -39,6 +44,9 @@ export function WardrobeModuleTemplateConfig({ definition, template, ...props }:
 	}
 	if (definition.type === 'text') {
 		return <WardrobeModuleTemplateConfigText { ...props } definition={ definition } template={ template?.type === 'text' ? template : undefined } />;
+	}
+	if (definition.type === 'key') {
+		return <WardrobeModuleTemplateConfigKey { ...props } definition={ definition } template={ template?.type === 'key' ? template : undefined } />;
 	}
 	AssertNever(definition);
 }

@@ -226,6 +226,9 @@ function DescribeGameLogicActionModuleAction({ action, globalState }: DescribeGa
 		case 'text':
 			actionDescription = <>Change text of the "{ moduleName ?? <code>{ action.module }</code> }" module</>;
 			break;
+		case 'key':
+			actionDescription = <>Action Text Here "{ moduleName ?? <code>{ action.module }</code> }"</>;
+			break;
 		default:
 			AssertNever(action.action);
 	}

@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import * as z from 'zod';
 
 import type { CharacterId } from '../../character/index.ts';
+import type { KeyDataBundle } from '../../gameLogic/index.ts';
 import type { LockDataBundle } from '../../gameLogic/locks/lockData.ts';
 import type { Satisfies } from '../../utility/misc.ts';
 import type { Asset } from '../asset.ts';
@@ -61,6 +62,8 @@ export type ItemBundle = {
 	roomDeviceLink?: RoomDeviceLink;
 	/** Lock specific data */
 	lockData?: LockDataBundle;
+	/** Key specific data */
+	keyData?: KeyDataBundle;
 };
 
 /**
