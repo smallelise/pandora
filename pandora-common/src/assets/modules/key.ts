@@ -12,18 +12,19 @@ import type { ConditionEqOperator } from '../graphics/index.ts';
 import type { IItemCreationContext, IItemLoadContext, IItemValidationContext } from '../item/base.ts';
 import type { IAssetModuleDefinition, IExportOptions, IItemModule, IModuleActionCommon, IModuleConfigCommon, IModuleItemDataCommon } from './common.ts';
 
-import { KeyActionSchema, KeyDataBundleSchema, KeyDataBundle, KeySetup, KeyLogic } from '../../gameLogic/keys/index.ts';
+import { KeyActionSchema, KeyDataSchema, KeyDataBundle, KeySetup, KeyLogic } from '../../gameLogic/keys/index.ts';
 
 export type IModuleConfigKey<TProperties, TStaticData> = IModuleConfigCommon<'key', TProperties, TStaticData> & KeySetup;
 export const ModuleItemDataKeySchema = z.object({
 	type: z.literal('key'),
-	keyData: KeyDataBundleSchema.nullable(),
+	keyData: KeyDataSchema.nullable(),
+	//DATA goes Here
 });
 export type IModuleItemDataKey = Satisfies<z.infer<typeof ModuleItemDataKeySchema>, IModuleItemDataCommon<'key'>>;
 
 export const ModuleItemTemplateKeySchema = z.object({
 	type: z.literal('key'),
-	keyData: KeyDataBundleSchema.nullable(),
+	keyData: KeyDataSchema.nullable(),
 });
 export type IModuleItemTemplateKey = z.infer<typeof ModuleItemTemplateKeySchema>;
 

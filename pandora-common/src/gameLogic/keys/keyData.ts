@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { CharacterIdSchema } from '../../character/characterTypes.ts';
 
-export const KeyDataBundleSchema = z.object({
+export const KeyDataSchema = z.object({
 	data: z.object({
 		/** id of the character created the item */
 		id: CharacterIdSchema,
@@ -27,4 +27,4 @@ export const KeyDataBundleSchema = z.object({
 	]).optional(),
 });
 
-export type KeyDataBundle = z.infer<typeof KeyDataBundleSchema>;
+export type KeyDataBundle = z.infer<typeof KeyDataSchema>;

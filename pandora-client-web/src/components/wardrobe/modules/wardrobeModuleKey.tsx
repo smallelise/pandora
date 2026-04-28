@@ -26,7 +26,6 @@ export function WardrobeModuleConfigKey({ target, item, moduleName, m }: Wardrob
 }
 
 export function WardrobeModuleTemplateConfigKey({ template }: WardrobeModuleTemplateProps<'key'>): ReactElement {
-
 	return (
 		<Column padding='medium'>
 			<Row padding='medium' wrap>
